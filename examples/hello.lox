@@ -1,0 +1,6 @@
+// A tiny Lox example that greets the user and demonstrates variables and
+// string concatenation.
+
+var name = "jlox";
+var message = "Hello, " + name + "!";
+print message;

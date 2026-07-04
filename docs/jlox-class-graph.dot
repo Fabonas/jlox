@@ -1,0 +1,57 @@
+digraph jlox {
+    rankdir=LR;
+    node [shape=box, style=rounded, fontname="Helvetica"];
+    edge [fontname="Helvetica", fontsize=10];
+
+    // Core pipeline
+    Lox [fillcolor="#e3f2fd", style="rounded,filled"];
+    Scanner [fillcolor="#fff3e0", style="rounded,filled"];
+    Parser [fillcolor="#fff3e0", style="rounded,filled"];
+    Resolver [fillcolor="#fff3e0", style="rounded,filled"];
+    Interpreter [fillcolor="#fff3e0", style="rounded,filled"];
+
+    Lox -> Scanner [label="creates"];
+    Lox -> Parser [label="creates"];
+    Lox -> Resolver [label="creates"];
+    Lox -> Interpreter [label="static instance"];
+
+    Scanner -> Token [label="produces"];
+    Scanner -> TokenType [label="uses"];
+    Parser -> Token [label="consumes"];
+    Parser -> Stmt [label="produces"];
+    Parser -> Expr [label="produces"];
+    Resolver -> Stmt [label="visits"];
+    Resolver -> Expr [label="visits"];
+    Resolver -> Interpreter [label="resolve(expr, depth)"];
+    Interpreter -> Stmt [label="visits"];
+    Interpreter -> Expr [label="visits"];
+
+    // Runtime
+    Interpreter -> Environment [label="uses"];
+    Interpreter -> LoxCallable [label="invokes"];
+    Interpreter -> RuntimeError [label="throws"];
+    Interpreter -> Return [label="catches"];
+
+    LoxFunction [fillcolor="#e8f5e9", style="rounded,filled"];
+    LoxClass [fillcolor="#e8f5e9", style="rounded,filled"];
+    LoxInstance [fillcolor="#e8f5e9", style="rounded,filled"];
+    LoxCallable [shape=box, style="rounded,filled,dashed", fillcolor="#f3e5f5"];
+
+    LoxFunction -> LoxCallable [arrowhead="empty", style="dashed", label="implements"];
+    LoxClass -> LoxCallable [arrowhead="empty", style="dashed", label="implements"];
+    LoxFunction -> Environment [label="closure"];
+    LoxClass -> LoxFunction [label="methods"];
+    LoxClass -> LoxInstance [label="constructs"];
+    LoxInstance -> LoxClass [label="instance of"];
+    Environment -> Environment [label="enclosing", style="dashed"];
+
+    // Data
+    Token [fillcolor="#fce4ec", style="rounded,filled"];
+    TokenType [shape=box, style="rounded,filled", fillcolor="#fce4ec"];
+    RuntimeError [fillcolor="#ffebee", style="rounded,filled"];
+    Return [fillcolor="#ffebee", style="rounded,filled"];
+    Stmt [shape=box, style="rounded,filled,dashed", fillcolor="#e0f7fa"];
+    Expr [shape=box, style="rounded,filled,dashed", fillcolor="#e0f7fa"];
+
+    Main -> Lox [label="delegates"];
+}

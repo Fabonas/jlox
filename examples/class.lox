@@ -1,0 +1,31 @@
+// A small class example demonstrating constructors, fields, methods, and this.
+
+class A {
+    method() {
+        print "A";
+    }
+}
+
+class B < A {
+    method() {
+        print "B";
+    }
+
+    test() {
+        super.method();
+    }
+}
+
+class C < B {
+    method () {
+        print "C";
+    }
+
+    test() {
+        super.test();
+    }
+}
+
+class D < C{}
+
+D().test();
